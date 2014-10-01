@@ -1,4 +1,4 @@
 Summary
 ===========
 
-Very simple memory allocator for learning pointer
+Very simple memory allocator for learning pointer.
