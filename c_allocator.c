@@ -68,43 +68,61 @@ void *m_allocate(size_t mem_size){
   info_logger(info);
 
   printf("貸し出しサイズ分ポインタを進める前のポインタを返す\n");
+  printf("/**************************/\n\n");
   return ptr;
 }
 
 void m_free(void* ptr){
   printf("/********* free *********/\n");
-
   void *tmp = ptr;
-  ptr -= sizeof(MemInfo);
+  tmp -= sizeof(MemInfo);
+  // 貸し出しメモリの管理情報を抽出
+  MemInfo *memInfoAdr = (MemInfo *)tmp;
+  MemInfo memInfo = *memInfoAdr;
+  memset(ptr,0,memInfo.size);
+  memi_logger(memInfoAdr);
+  ptr = NULL;
+  tmp = NULL;
+}
+
+/*
+void m_free(void* ptr){
+  printf("********* free *********\n");
+  printf(" ptr adr   : %p\n",ptr);
+  void *tmp = ptr;
+  tmp -= sizeof(MemInfo);
   printf(" ptr adr   : %p\n",ptr);
   printf(" tmp adr   : %p\n",tmp);
   // 貸し出しメモリの管理情報を抽出
   printf("貸し出しメモリの管理情報を抽出\n"); 
-  MemInfo *memInfoAdr = (MemInfo *)ptr;
+  MemInfo *memInfoAdr = (MemInfo *)tmp;
   MemInfo memInfo = *memInfoAdr;
-  memset(&memInfo,0,sizeof(MemInfo));
+  //  memset(&memInfo,0,sizeof(MemInfo));
+  memset(ptr,0,memInfo.size);
   memi_logger(memInfoAdr);
   ptr = NULL;
   tmp = NULL;
   printf(" ptr adr   : %p\n",ptr);
   printf(" tmp adr   : %p\n",tmp);
 }
-
+*/
 
 void info_logger(AllocInfo *info){
-  printf("/********* info logger *********/\n");
-  printf(" i adr     : %p\n",info);
-  printf(" i fll     : %d\n",info->fullSize);
-  printf(" i fll adr : %p\n",&info->fullSize);
-  printf(" i ptr adr : %p\n",info->freeMemPtr);
-  printf("/*******************************/\n");
+  return;
+  printf("+++++ info logger +++++\n");
+  printf("+++++ i adr     : %p\n",info);
+  printf("+++++ i fll     : %d\n",info->fullSize);
+  printf("+++++ i fll adr : %p\n",&info->fullSize);
+  printf("+++++ i ptr adr : %p\n",info->freeMemPtr);
+  //printf("/*******************************/\n");
 }
 
 void memi_logger(MemInfo *memInfo){
-  printf("/********* memi logger *********/\n");
-  printf("mi adr     : %p\n",memInfo);
-  printf("mi sz      : %d\n",memInfo->size);
-  printf("mi sz adr  : %p\n",&memInfo->size);
-  printf("mi mem     : %p\n",memInfo->mem);
-  printf("/*******************************/\n");
+  return;
+  printf("+++++ memi logger +++++\n");
+  printf("+++++ mi adr    : %p\n",memInfo);
+  printf("+++++ mi sz     : %d\n",memInfo->size);
+  printf("+++++ mi sz adr : %p\n",&memInfo->size);
+  printf("+++++ mi mem    : %p\n",memInfo->mem);
+  // printf("/*******************************/\n");
 }
